@@ -18,6 +18,15 @@ If you have Go installed, this will compile and install tidy to your $GOPATH/bin
 go install github.com/its-me-abhishek/tidy@latest
 ```
 
+To make tidy work just by typing its name, you need to tell WSL/Linux where Go puts its binaries. Run these two commands:
+```
+# Add Go bin to your current session
+export PATH=$PATH:$(go env GOPATH)/bin
+
+# Make it permanent for every time you open WSL
+echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.bashrc
+```
+
 ## Pre-built Binaries
 
 Grab the latest executable for Windows, macOS, or Linux from the Releases Page.
