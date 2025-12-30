@@ -11,18 +11,18 @@ A minimal, beautiful CLI tool built in Go using Bubble Tea to keep your director
 
 # Installation
 
-- The Quickest Way (Go Install)
+## The Quickest Way (Go Install)
 If you have Go installed, this will compile and install tidy to your $GOPATH/bin automatically.
 
 ```
 go install github.com/its-me-abhishek/tidy@latest
 ```
 
-- Pre-built Binaries
+## Pre-built Binaries
 
 Grab the latest executable for Windows, macOS, or Linux from the Releases Page.
 
-- Building from source
+## Building from source
 1. Clone the repository
 ```
 git clone https://github.com/its-me-abhishek/tidy.git
