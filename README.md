@@ -4,9 +4,11 @@ A minimal, beautiful CLI tool built in Go using Bubble Tea to keep your director
 
 # Features
 
-- tidy cup: Instantly moves loose files into folders based on their extension.
-- tidy undo: Reverses the last cleanup and deletes the empty folders.
-- tidy ls: A prettier, interactive alternative to ls built for the terminal.
+- `tidy cup`: Instantly moves loose files into folders based on their extension. (Cup is short for cleanup!)
+- `tidy undo`: Reverses the last cleanup and restores your directory to its original state.
+  - **How it works**: Each `tidy cup` run generates a hidden `.tidy_history` file inside that same directory to track moved files.
+  - **Note**: Deleting `.tidy_history` makes the reorganisation using cleanup permanent and prevents further undos for that session.
+- `tidy ls`: A prettier, interactive alternative to ls built for the terminal.
 - Filters: Move exactly what you want, or skip what you don’t.
 
 # Installation
