@@ -1,5 +1,7 @@
 # 🧹 tidy
 
+<img width=600 src="./demo.gif"/>
+
 A minimal, beautiful CLI tool built in Go using Bubble Tea to keep your directories clean and organized. Moves all files inside a directory, to separate directories, based on the file extension!
 
 # Features
