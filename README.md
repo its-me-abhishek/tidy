@@ -14,13 +14,15 @@ A minimal, beautiful CLI tool built in Go using Bubble Tea to keep your director
 ```
 git clone https://github.com/its-me-abhishek/tidy.git
 cd tidy
-
+```
 2. Initialize & build
+```
 go mod init tidy
 go mod tidy
 go build -o tidy main.go
-
+```
 3. Global access (optional)
+```
 sudo mv tidy /usr/local/bin/
 ```
 
