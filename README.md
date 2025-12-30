@@ -1,6 +1,6 @@
 # 🧹 tidy
 
-A minimal, beautiful CLI tool built in Go using Bubble Tea to keep your directories clean and organized.
+A minimal, beautiful CLI tool built in Go using Bubble Tea to keep your directories clean and organized. Moves all files inside a directory, to separate directories, based on the file extension!
 
 # Features
 
@@ -10,6 +10,19 @@ A minimal, beautiful CLI tool built in Go using Bubble Tea to keep your director
 - Filters: Move exactly what you want, or skip what you don’t.
 
 # Installation
+
+- The Quickest Way (Go Install)
+If you have Go installed, this will compile and install tidy to your $GOPATH/bin automatically.
+
+```
+go install github.com/its-me-abhishek/tidy@latest
+```
+
+- Pre-built Binaries
+
+Grab the latest executable for Windows, macOS, or Linux from the Releases Page.
+
+- Building from source
 1. Clone the repository
 ```
 git clone https://github.com/its-me-abhishek/tidy.git

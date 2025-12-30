@@ -20,7 +20,25 @@ var (
 	doneStyle  = lipgloss.NewStyle().Foreground(lipgloss.Color("#02BA59")).Bold(true).PaddingLeft(2)
 	warnStyle  = lipgloss.NewStyle().Foreground(lipgloss.Color("#FFA500")).Bold(true).PaddingLeft(2)
 	dirStyle   = lipgloss.NewStyle().Foreground(lipgloss.Color("#7D56F4"))
+	helpStyle  = lipgloss.NewStyle().Foreground(lipgloss.Color("#AAAAAA")).MarginLeft(4)
 )
+
+func printHelp() {
+	fmt.Println(titleStyle.Render("🧹 TIDY CLI HELP"))
+	fmt.Println("\nUsage: tidy <command> [flags]")
+	fmt.Println("\nCommands:")
+	fmt.Printf("  %-10s %s\n", "cup", "Clean Up: Organize files into folders by type.")
+	fmt.Printf("  %-10s %s\n", "undo", "Revert the last cleanup operation.")
+	fmt.Printf("  %-10s %s\n", "ls", "Pretty-print directory contents with interactive UI.")
+	fmt.Printf("  %-10s %s\n", "help", "Show this help menu.")
+
+	fmt.Println("\nFlags for 'cup':")
+	fmt.Printf("  %-20s %s\n", "--ext \"png jpg\"", "Move ONLY these extensions.")
+	fmt.Printf("  %-20s %s\n", "--skip \"mp4 exe\"", "Move everything EXCEPT these extensions.")
+
+	fmt.Println("\nExample:")
+	fmt.Println(helpStyle.Render("tidy cup --ext \"pdf docx\""))
+}
 
 func runCleanup(targetExts string, skipExts string) {
 	files, _ := os.ReadDir(".")
@@ -31,7 +49,6 @@ func runCleanup(targetExts string, skipExts string) {
 	}
 	defer history.Close()
 
-	// Parse flags into maps for quick lookup
 	targets := make(map[string]bool)
 	if targetExts != "" {
 		for _, e := range strings.Fields(targetExts) {
@@ -57,12 +74,11 @@ func runCleanup(targetExts string, skipExts string) {
 			ext = "misc"
 		}
 
-		// Logic for Filter Flags
 		if len(targets) > 0 && !targets[ext] {
-			continue // Skip if not in the target list
+			continue
 		}
 		if skips[ext] {
-			continue // Skip if explicitly blacklisted
+			continue
 		}
 
 		os.MkdirAll(ext, os.ModePerm)
@@ -75,8 +91,6 @@ func runCleanup(targetExts string, skipExts string) {
 	}
 	fmt.Printf("%s Tidied up %d files.\n", doneStyle.Render("✔"), count)
 }
-
-// ... runUndo and Bubble Tea Model/Update/View remain the same as previous version ...
 
 func runUndo() {
 	file, err := os.Open(historyFile)
@@ -152,11 +166,11 @@ func (m model) View() string {
 
 func main() {
 	cupCmd := flag.NewFlagSet("cup", flag.ExitOnError)
-	extFlag := cupCmd.String("ext", "", "Only move specific extensions (e.g. 'jpg png')")
-	skipFlag := cupCmd.String("skip", "", "Skip specific extensions (e.g. 'pdf exe')")
+	extFlag := cupCmd.String("ext", "", "Only move specific extensions")
+	skipFlag := cupCmd.String("skip", "", "Skip specific extensions")
 
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: tidy [cup | ls | undo]")
+		printHelp()
 		return
 	}
 
@@ -170,7 +184,10 @@ func main() {
 		files, _ := os.ReadDir(".")
 		p := tea.NewProgram(model{files: files})
 		p.Run()
+	case "help", "--help", "-h":
+		printHelp()
 	default:
-		fmt.Println("Unknown command")
+		fmt.Printf(warnStyle.Render("Unknown command: %s\n\n"), os.Args[1])
+		printHelp()
 	}
 }
