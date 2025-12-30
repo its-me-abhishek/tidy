@@ -1,4 +1,4 @@
-module tidy
+module github.com/its-me-abhishek/tidy
 
 go 1.25.5
 
