@@ -51,19 +51,20 @@ sudo mv tidy /usr/local/bin/
 # Usage
 ## Basic commands
 - Command	Action
-  - ./tidy cup	Organizes all files in the current directory
-  - ./tidy undo	Restores files to their original state
-  - ./tidy ls	Opens the interactive Bubble Tea file explorer
+  - tidy cup: Organizes all files in the current directory
+  - tidy undo: Restores files to their original state
+  - tidy ls: Opens the interactive Bubble Tea file explorer
+  - tidy help: Lists all commands available for usage
 
 - Advanced filtering
   - Target specific file types or exclude them:
     - Only specific types
       ```
-       ./tidy cup --ext "jpg png gif"
+       tidy cup --ext "jpg png gif"
       ```
     - Everything except specific types
       ```
-      ./tidy cup --skip "txt md"
+      tidy cup --skip "txt md"
       ```
       
 # Development & Testing
