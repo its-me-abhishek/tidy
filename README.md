@@ -16,7 +16,20 @@ A minimal, beautiful CLI tool built in Go using Bubble Tea to keep your director
 
 # Installation
 
-## The Quickest Way (Go Install)
+To install the latest version, 
+## Linux
+
+```
+curl -L https://github.com/its-me-abhishek/tidy/releases/download/v0.1.0/tidy_0.1.0_linux_amd64.tar.gz | tar xz && sudo mv tidy /usr/local/bin/
+```
+
+## Mac
+```
+curl -L https://github.com/its-me-abhishek/tidy/releases/download/v0.1.0/tidy_0.1.0_darwin_arm64.tar.gz | tar xz && sudo mv tidy /usr/local/bin/
+```
+
+
+## Using Golang
 If you have Go installed, this will compile and install tidy to your $GOPATH/bin automatically.
 
 ```
