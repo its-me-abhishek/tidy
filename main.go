@@ -33,21 +33,33 @@ func printHelp() {
 	fmt.Printf("  %-10s %s\n", "help", "Show this help menu.")
 
 	fmt.Println("\nFlags for 'cup':")
+	fmt.Printf("  %-20s %s\n", "-p, --preview", "Preview changes without moving files.")
 	fmt.Printf("  %-20s %s\n", "--ext \"png jpg\"", "Move ONLY these extensions.")
 	fmt.Printf("  %-20s %s\n", "--skip \"mp4 exe\"", "Move everything EXCEPT these extensions.")
 
-	fmt.Println("\nExample:")
+	fmt.Println("\nExamples:")
+	fmt.Println(helpStyle.Render("tidy cup --preview"))
 	fmt.Println(helpStyle.Render("tidy cup --ext \"pdf docx\""))
+
+	fmt.Println("\n" + doneStyle.Render("Pro-tip:") + " Use -p first to see what tidy plans to do!")
 }
 
-func runCleanup(targetExts string, skipExts string) {
+func runCleanup(targetExts string, skipExts string, preview bool) {
 	files, _ := os.ReadDir(".")
-	history, err := os.Create(historyFile)
-	if err != nil {
-		fmt.Println("Error recording history")
-		return
+
+	// Only create history if we are actually moving files
+	var history *os.File
+	var err error
+	if !preview {
+		history, err = os.Create(historyFile)
+		if err != nil {
+			fmt.Println("Error recording history")
+			return
+		}
+		defer history.Close()
+	} else {
+		fmt.Println(warnStyle.Render("--- PREVIEW MODE: No files will be moved ---"))
 	}
-	defer history.Close()
 
 	targets := make(map[string]bool)
 	if targetExts != "" {
@@ -81,15 +93,27 @@ func runCleanup(targetExts string, skipExts string) {
 			continue
 		}
 
-		os.MkdirAll(ext, os.ModePerm)
 		newPath := filepath.Join(ext, file.Name())
 
-		if err := os.Rename(file.Name(), newPath); err == nil {
-			fmt.Fprintf(history, "%s|%s\n", file.Name(), newPath)
+		if preview {
+			// Just print the intention
+			fmt.Printf("%s Would move: %s -> %s\n", dirStyle.Render("?"), file.Name(), newPath)
 			count++
+		} else {
+			// Actually perform the operations
+			os.MkdirAll(ext, os.ModePerm)
+			if err := os.Rename(file.Name(), newPath); err == nil {
+				fmt.Fprintf(history, "%s|%s\n", file.Name(), newPath)
+				count++
+			}
 		}
 	}
-	fmt.Printf("%s Tidied up %d files.\n", doneStyle.Render("✔"), count)
+
+	if preview {
+		fmt.Printf("\nSummary: %d files would be moved.\n", count)
+	} else {
+		fmt.Printf("%s Tidied up %d files.\n", doneStyle.Render("✔"), count)
+	}
 }
 
 func runUndo() {
@@ -169,6 +193,11 @@ func main() {
 	extFlag := cupCmd.String("ext", "", "Only move specific extensions")
 	skipFlag := cupCmd.String("skip", "", "Skip specific extensions")
 
+	// Define the preview flag
+	var preview bool
+	cupCmd.BoolVar(&preview, "preview", false, "Preview changes without moving files")
+	cupCmd.BoolVar(&preview, "p", false, "Preview changes without moving files (shorthand)")
+
 	if len(os.Args) < 2 {
 		printHelp()
 		return
@@ -177,7 +206,8 @@ func main() {
 	switch os.Args[1] {
 	case "cup":
 		cupCmd.Parse(os.Args[2:])
-		runCleanup(*extFlag, *skipFlag)
+		// Pass the preview variable here
+		runCleanup(*extFlag, *skipFlag, preview)
 	case "undo":
 		runUndo()
 	case "ls":

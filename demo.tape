@@ -18,7 +18,9 @@ Type "ls"
 Enter
 Sleep 2s
 
-# 3. Run Tidy Cup
+# 3. Run Tidy Cup preview and then the command
+Type "tidy cup -p"
+Enter
 Type "tidy cup"
 Enter
 Sleep 2s
