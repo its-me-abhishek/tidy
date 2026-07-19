@@ -95,7 +95,3 @@ Helper scripts are included to safely test the tool (useful in WSL or Linux):
   - j / Down → Move selection down
   - k / Up → Move selection up
   - q / Ctrl+C → Quit explorer
- 
-## 📈 Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=its-me-abhishek/tidy&type=Date)](https://star-history.com/#its-me-abhishek/tidy&Date)
